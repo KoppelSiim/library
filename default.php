@@ -1,1 +1,11 @@
-<p>Siia peaks siis mingi default sisu tulema ja viewheight responsive height</p>
+<p>Pealeht</p>
+
+Raamatute otsing
+
+AJ TODO:
+1.ehitan htmli yles
+2.teen raamatute db
+3.t2idan db raamatutega
+
+
+
