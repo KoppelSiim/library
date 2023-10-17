@@ -11,3 +11,5 @@ Kasutaja vaade
 *Kasutajal peab olema võimalus otsida saada olevaid raamatuid autori ja nime järgi
 *Kasutaja saab filtreerida raamatuid saadavuse järgi
 Administraatori vaade
+
+index.php
