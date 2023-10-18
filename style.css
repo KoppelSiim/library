@@ -1,3 +1,7 @@
-.container .navbar .nav-link {
+ul.navbar-nav li.nav-item a.nav-link {
   color: white;
+}
+
+.navbar-light .navbar-brand {
+  color: blueviolet;
 }
