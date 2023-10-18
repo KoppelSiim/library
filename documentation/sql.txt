@@ -1,4 +1,8 @@
---Tabeli loomine raamatukogu jaoks
+--SQL DOKUMENTATSIOON
+--Parameetrid, mida asendadatakse koodis reaalsete väärtustega on siin failis asendatud küsimärgiga (?);
+
+
+-- 1. Tabeli loomine raamatukogu jaoks
 
 CREATE TABLE books (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -7,3 +11,16 @@ CREATE TABLE books (
     available BOOLEAN NOT NULL,
     deadline DATE
 );
+
+
+-- 2. Raamatute otsingu täielik SQL, koodis oleneb otsingu parameetritest
+
+SELECT title, author FROM books 
+WHERE title = ?
+AND author = ?
+AND available = ?
+
+
+-- 3. Raamatu detailvaate kuvamiseks
+
+SELECT title, author, available, deadline FROM books WHERE id = ?;
