@@ -25,25 +25,35 @@ AND available = ?
 
 SELECT title, author, available, deadline FROM books WHERE id = ?;
 
+
 -- 4. Raamatu lisamine haldusvaates, title ja author tulevad formist
 
 INSERT INTO books
 	(title, author, available)
 VALUES
-	(?, ?, true);
+	(?, ?, ?);
+
 
 -- 5. Kuva kõik raamatud haldusvaates
 
-SELECT * FROM books;
+SELECT title, author, available  deadline  FROM books;
+
 
 -- 6. Kustuta raamat haldusvaates
 
 DELETE FROM books
 WHERE id = ?;
 
+
 -- 7. Laenuta raamat
+
+UPDATE books
+SET deadline = ?,
+	available = ?
+WHERE id = ?; 
+
 
 -- 8. Kuva laenutatud raamatuid
 
-SELECT * FROM books
+SELECT title, author, deadline FROM books
 WHERE available = true;
