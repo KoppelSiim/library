@@ -83,7 +83,7 @@ if (isset($_GET["submitSearch"])) {
         </div> 
 
         <div class="form-group">
-            <button type="submit" name="submitSearch">Search</button>
+            <button type="submit" class="btn btn-dark" name="submitSearch">Search</button>
         </div>
     </form>
 </div>
@@ -108,8 +108,8 @@ if (isset($_GET["submitSearch"])) {
                             </div>
 
                             <div class="col-2 mb-2">
-                                <button type="submit" name="toDetail" value="<?php echo $row['id']; ?>">Vaata</button>
-                                <button type="submit" name="borrow" value="<?php echo $row['id']; ?>">Laenuta</button>
+                                <button type="submit" class="btn btn-dark" name="toDetail" value="<?php echo $row['id']; ?>">Vaata</button>
+                                <button type="submit" class="btn btn-dark" name="borrow" value="<?php echo $row['id']; ?>">Laenuta</button>
                             </div>
                         </div>
                     </div>
