@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,17 +10,26 @@
     <link href="style.css" rel="stylesheet">
     <title>Raamatukogu</title>
 </head>
+
 <body>
+
     <nav class="container navbar navbar-expand-lg navbar-light bg-dark mt-4 mb-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Raamatukogu</a>
+
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+            <li class="nav-item">
+                    <a class="nav-link" href="?page=default">Otsing</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="?page=user">Kasutaja</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="?page=admin">Haldus</a>
                 </li>
+
             </ul>
+
         </div>
     </nav>

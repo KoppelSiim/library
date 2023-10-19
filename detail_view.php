@@ -9,11 +9,10 @@ if (isset($_GET["id"])) {
     $sql = "SELECT title, author, available, deadline FROM books WHERE id = ?";
     $command = $connect->prepare($sql);
 
-    //MySQL kasutab booleani jaoks integere (1-true, 0-false)
-    $command->bind_param("ssis", $title, $author, $available, $deadline);
+    $command->bind_param("ssss", $title, $author, $year, $status, $deadline);
     $command->execute();
 
-    $command->bind_result($title, $author, $available, $deadline);
+    $command->bind_result($title, $author, $year, $status, $deadline);
 
 } else {
     echo "Ühtegi raamatut pole valitud kuvamiseks.";
@@ -30,7 +29,7 @@ if (isset($_GET["id"])) {
 
     <h4><?php echo htmlspecialchars($title); ?></h1>
     <p>Autor: <?php echo htmlspecialchars($author); ?></p>
-    <p>Saadaval laenutuseks: <?php echo ($available == 1) ? "Jah" : "Ei"; ?></p>
+    <p>Staatus: <?php echo htmlspecialchars($statusTranslated)?></p>
 
     <?php
         if ($deadline !== null) {

@@ -1,5 +1,10 @@
 # library
 library homepage
+
+Projekti arendajad: 
+Siim Koppel,
+Annabel Jakubel
+
 https://github.com/users/KoppelSiim/projects/1 - project
 ## Funktsionaalsus ja lehed
 Kasutaja vaade
@@ -11,3 +16,4 @@ Kasutaja vaade
 *Kasutajal peab olema võimalus otsida saada olevaid raamatuid autori ja nime järgi
 *Kasutaja saab filtreerida raamatuid saadavuse järgi
 Administraatori vaade
+
