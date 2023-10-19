@@ -17,7 +17,3 @@ Kasutaja vaade
 *Kasutaja saab filtreerida raamatuid saadavuse järgi
 Administraatori vaade
 
-
-Raamatu võimalikud staatused:
-shelf, hall, loaned, storage 
-
