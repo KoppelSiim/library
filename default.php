@@ -10,32 +10,41 @@ if (isset($_POST["submitSearch"])) {
     $id_submit = $_POST["submitSearch"];
 
     $sql = $baseSelect;
-    $conditions = array();
+    $conditions[] = array();
+    $bindParams[] = array();
 
     if (!empty($_POST["title"])) {
         $titleFromForm = $_POST["title"];
         $conditions[] = "title = ?";
+        $bindParams[] = $titleFromForm
     }
 
     if (!empty($_POST["author"])) {
-        $titleFromForm = $_POST["title"];
-        $conditions[] = "title = ?";
+        $authorFromForm = $_POST["author"];
+        $conditions[] = "author = ?";
+        $bindParams[] = $authorFromForm;
     }
 
-    if (!empty($_POST["available"])) {
-        $availableFromForm = $_POST["available"];
-        $conditions[] = "available = ?";
+    if (!empty($_POST["status"])) {
+        $statusFromForm = $_POST["status"];
+        $conditions[] = 'status = "shelf" OR status = "hall"';
+        $bindParams[] = $statusFromForm;
     }
 
     if(!empty($conditions)) {
         $sql .= " WHERE " . implode(" AND ", $conditions);
+
+        $order = $connect->prepare($sql);
+
+        //Bind params
+        if ($order) {
+            $types = str_repeat('s', count($bindParams));
+            $order->bind_param($types ...$bindParams);
+
+            $order->execute();
+        }
     }
-
-
 }
-
-//  sql käsu täitmine
-//  andmete välja kuvamine vastavalt sql käsule
 //  laenutamise php blokk
 //  detailvaate redirection
 
@@ -58,8 +67,8 @@ if (isset($_POST["submitSearch"])) {
     </div>
     
     <div class="form-group">
-        <label for="available">Kuva ainult saadaval raamatuid </label>
-        <input type="checkbox" name="available" id="available">
+        <label for="status">Kuva ainult saadaval raamatuid </label>
+        <input type="checkbox" name="status" id="status">
         <input type="submit" value="available">
     </div> 
 

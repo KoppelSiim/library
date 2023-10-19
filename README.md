@@ -1,5 +1,10 @@
 # library
 library homepage
+
+Projekti arendajad: 
+Siim Koppel,
+Annabel Jakubel
+
 https://github.com/users/KoppelSiim/projects/1 - project
 ## Funktsionaalsus ja lehed
 Kasutaja vaade
@@ -12,4 +17,7 @@ Kasutaja vaade
 *Kasutaja saab filtreerida raamatuid saadavuse järgi
 Administraatori vaade
 
-index.php
+
+Raamatu võimalikud staatused:
+shelf, hall, loaned, storage 
+
