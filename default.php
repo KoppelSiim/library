@@ -56,11 +56,11 @@ if (isset($_POST["submitSearch"])) {
 
 
 ?>
-
+<dic class=container>
 <h2>Raamatukogu<h2>
 <h4>Otsing<h4>
 
-<form class="searchForm" method="POST" action="">
+<form class="searchForm container" method="POST" action="">
 
     <div class="form-group">
         <label for="title" class="form-label">Pealkiri</label>
@@ -83,21 +83,22 @@ if (isset($_POST["submitSearch"])) {
     </div>
 
 </form>
+</div>
 
-
-<div class="searchResultForm">
+<div class="searchResultForm container">
    <?php 
     if ($formSubmitted && $result) {
         while ($row = $result->fetch_assoc()) { ?>
+
             <div>
                 <form method="POST" action="">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-2 larger-text">
+                            <div class="col-2 mb-2">
                                 <?php echo htmlspecialchars($row['title']);?>
                                 <?php echo htmlspecialchars($row['author']);?>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-2 mb-2">
                                 <button type="submit" name="toDetail" value="<?php echo $row['id'] ?>">Vaata</button>
                                 <button type="submit" name="borrow" value="<?php echo $row['id'] ?>">Laenuta</button>
                             </div>
@@ -106,6 +107,7 @@ if (isset($_POST["submitSearch"])) {
                 </form>
                 <br>
             </div>
+
          <?php
         }
      } ?>
