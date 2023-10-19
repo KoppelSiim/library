@@ -1,13 +1,17 @@
 <?php 
 require($_SERVER["DOCUMENT_ROOT"]."/../library_config.php");
 global $connect;
+global $order;
+$result = null;
 
 // otsing
 $baseSelect = "SELECT title, author FROM books ";
+$formSubmitted = false;
 
 if (isset($_POST["submitSearch"])) {
 
     $id_submit = $_POST["submitSearch"];
+    $formSubmitted = true;
 
     $sql = $baseSelect;
     $conditions[] = array();
@@ -16,7 +20,7 @@ if (isset($_POST["submitSearch"])) {
     if (!empty($_POST["title"])) {
         $titleFromForm = $_POST["title"];
         $conditions[] = "title = ?";
-        $bindParams[] = $titleFromForm
+        $bindParams[] = $titleFromForm;
     }
 
     if (!empty($_POST["author"])) {
@@ -39,9 +43,11 @@ if (isset($_POST["submitSearch"])) {
         //Bind params
         if ($order) {
             $types = str_repeat('s', count($bindParams));
-            $order->bind_param($types ...$bindParams);
+            $order->bind_param($types, ...$bindParams);
 
             $order->execute();
+
+            $result = $order->get_result();
         }
     }
 }
@@ -80,35 +86,29 @@ if (isset($_POST["submitSearch"])) {
 
 
 <div class="searchResultForm">
-
-   <?php while ($command->fetch()) { ?>
-
-    <div>
-        <form method="POST" action="">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-2 larger-text">
-
-                        <?php echo htmlspecialchars($title);?>
-                        <?php echo htmlspecialchars($author);?>
-
+   <?php 
+    if ($formSubmitted && $result) {
+        while ($row = $result->fetch_assoc()) { ?>
+            <div>
+                <form method="POST" action="">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-2 larger-text">
+                                <?php echo htmlspecialchars($row['title']);?>
+                                <?php echo htmlspecialchars($row['author']);?>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" name="toDetail" value="<?php echo $row['id'] ?>">Vaata</button>
+                                <button type="submit" name="borrow" value="<?php echo $row['id'] ?>">Laenuta</button>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="col-md-2">
-
-                        <button type="submit" name="toDetail" value="<?php echo $id; ?>">Vaata</button>
-                        <button type="submit" name="borrow" value="<?php echo $id; ?>">Laenuta</button>
-
-                    </div>
-                </div>
+                </form>
+                <br>
             </div>
-
-        </form>
-        <br>
-    </div>
-    
-    <?php } ?>
-
+         <?php
+        }
+     } ?>
 </div>
 
 
