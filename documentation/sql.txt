@@ -24,3 +24,26 @@ AND available = ?
 -- 3. Raamatu detailvaate kuvamiseks
 
 SELECT title, author, available, deadline FROM books WHERE id = ?;
+
+-- 4. Raamatu lisamine haldusvaates, title ja author tulevad formist
+
+INSERT INTO books
+	(title, author, available)
+VALUES
+	(?, ?, true);
+
+-- 5. Kuva kõik raamatud haldusvaates
+
+SELECT * FROM books;
+
+-- 6. Kustuta raamat haldusvaates
+
+DELETE FROM books
+WHERE id = ?;
+
+-- 7. Laenuta raamat
+
+-- 8. Kuva laenutatud raamatuid
+
+SELECT * FROM books
+WHERE available = true;
