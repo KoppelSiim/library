@@ -25,14 +25,14 @@ if (isset($_GET["submitSearch"])) {
 
     if (!empty($_GET["title"])) {
         $titleFromForm = $_GET["title"];
-        $conditions[] = "title = ?";
-        $bindParams[] = $titleFromForm;
+        $conditions[] = "title LIKE ?";
+        $bindParams[] = '%' . $titleFromForm . '%';
     }
-
+    
     if (!empty($_GET["author"])) {
         $authorFromForm = $_GET["author"];
-        $conditions[] = "author = ?";
-        $bindParams[] = $authorFromForm;
+        $conditions[] = "author LIKE ?";
+        $bindParams[] = '%' . $authorFromForm . '%';
     }
 
     if (!empty($_GET["status"])) {
@@ -82,7 +82,6 @@ if (isset($_GET["submitSearch"])) {
             <input type="checkbox" name="status" value="hall_shelf" id="status">
         </div> 
 
-        <!-- Use a single "Search" button to trigger the GET request -->
         <div class="form-group">
             <button type="submit" name="submitSearch">Search</button>
         </div>
@@ -99,8 +98,9 @@ if (isset($_GET["submitSearch"])) {
                 <form method="GET" action="">
                     <div class="container">
                         <div class="row">
+
                             <div class="col-2 mb-2">
-                                <?php echo htmlspecialchars($row['title']);?>
+                                <b><?php echo htmlspecialchars($row['title']);?></b>
                             </div>
 
                             <div class="col-2 mb-2">
