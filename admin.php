@@ -57,6 +57,12 @@ $sqlGetAllBooks->execute();
     '<div class="row mb-2">
         <div class="col-3">' . htmlspecialchars($title) . '</div>
         <div class="col-3">' . htmlspecialchars($author). '</div>
+        <div class= "col-1">
+            <form method="POST" action="delete_book.php">
+            <input type="hidden" name="id" value=' . htmlspecialchars($id) . '>
+            <button type="submit" name="deleteBook" class="btn-danger">Kustuta</button>
+            </form>
+        </div>
     </div>';
     }
     ?>
