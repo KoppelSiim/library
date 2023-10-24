@@ -24,4 +24,6 @@ if (isset($_POST["title"], $_POST["author"], $_POST["year"]) &&
             echo "Error: " . $sqlInsertBook->error;
         }
     }
+    $sqlInsertBook->close();
+    $connect->close();
 ?>

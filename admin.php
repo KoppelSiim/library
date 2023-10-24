@@ -1,6 +1,7 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/../library_config.php");
 global $connect;
+// Admin vaates põhilise info kuvamiseks
 $sqlGetAllBooks = $connect->prepare("SELECT id, title, author, status, year, synopsis, img FROM books");
 $sqlGetAllBooks->bind_result($id, $title, $author, $status, $year, $synopsis, $img);
 $sqlGetAllBooks->execute();
@@ -44,19 +45,25 @@ $sqlGetAllBooks->execute();
         </div>
     </form>
 
-    <!-- Kuva kõik raamatud, kustuta -->
-    <!-- Todo col suurus responsive, gap vaiksemaks -->
+    <!-- Kuvan admin põhivaates hetkel ainult raamatu pealkirja ja autori -->
     <h4 class="mb-3">Raamatud</h4>
     <div class="row mb-2">
         <div class="col-3 form-label" style="font-weight:bold">Pealkiri</div>
         <div class="col-3 form-label" style="font-weight:bold">Autor</div>
     </div>
+    <!-- Kuvan 2 formi ja nuppu, delete on lisatud, detailvaade hetkel veel mitte -->
     <?php
     while($sqlGetAllBooks->fetch()) {
     echo
     '<div class="row mb-2">
         <div class="col-3">' . htmlspecialchars($title) . '</div>
         <div class="col-3">' . htmlspecialchars($author). '</div>
+        <div class="col-2">
+            <form method="POST" action="admin_details_view.php">
+                <input type="hidden" name="id" value="' . htmlspecialchars($id) . '">
+                <button type="submit" name="viewDetails" class="btn btn-info">Vaata</button>
+            </form>
+        </div>
         <div class= "col-1">
             <form method="POST" action="delete_book.php">
             <input type="hidden" name="id" value=' . htmlspecialchars($id) . '>
