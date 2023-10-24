@@ -83,7 +83,7 @@ if (isset($_GET["submitSearch"])) {
         </div> 
 
         <div class="form-group">
-            <button type="submit" class="btn btn-dark" name="submitSearch">Search</button>
+            <button type="submit" class="btn btn-dark" value="search" name="submitSearch">Search</button>
         </div>
     </form>
 </div>
