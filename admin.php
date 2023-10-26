@@ -1,20 +1,35 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/../library_config.php");
 global $connect;
+//$bookDetails = null;
+//ViewDetalid pohjal raamatu andmed
+if(isset($_POST["viewDetailsid"])){
+
+    $bookId = $_POST["viewDetailsid"];
+    $sql = "SELECT id, title, author, deadline, status, year, synopsis, img FROM books WHERE id = ?";
+    $sqlGetBookDetails = $connect->prepare($sql);
+    $sqlGetBookDetails->bind_param("i", $bookId);
+    $sqlGetBookDetails->bind_result($did, $dtitle, $dauthor, $deadLine, $status, $year, $synopsis, $img);
+    $sqlGetBookDetails->execute();
+    $sqlGetBookDetails->fetch();
+    $sqlGetBookDetails->close();
+
+}
 // Admin vaates põhilise info kuvamiseks
-$sqlGetAllBooks = $connect->prepare("SELECT id, title, author, status, year, synopsis, img FROM books");
-$sqlGetAllBooks->bind_result($id, $title, $author, $status, $year, $synopsis, $img);
+$sqlGetAllBooks = $connect->prepare("SELECT id, title, author FROM books");
+$sqlGetAllBooks->bind_result($id, $title, $author);
 $sqlGetAllBooks->execute();
 ?>
 <!-- Haldus leht -->
 <div class="container">
     <h1>Haldus</h1>
     <!--Raamatu lisamine form -->
+
     <h4>Lisa raamat</h4>
     <form method="POST" action="add_book.php" class="mb-3" name="addBook">
         <div class="form-group row col-2 mb-2">
             <label for="bookTitle" class="form-label">Pealkiri</label>
-            <input type="text" class="form-control" id="bookTitle" name="title" required>
+            <input type="text" class="form-control" id="bookTitle" name="title" value="<?= $dtitle ?? "" ?>" required>
         </div>
         <div class="form-group row col-2 mb-2">
             <label for="bookAuthor" class="form-label">Autor</label>
@@ -44,7 +59,6 @@ $sqlGetAllBooks->execute();
             <button type="submit" name="addBook" class="btn btn-primary">Salvesta</button>
         </div>
     </form>
-
     <!-- Kuvan admin põhivaates hetkel ainult raamatu pealkirja ja autori -->
     <h4 class="mb-3">Raamatud</h4>
     <div class="row mb-2">
@@ -53,15 +67,15 @@ $sqlGetAllBooks->execute();
     </div>
     <!-- Kuvan 2 formi ja nuppu, delete on lisatud, detailvaade hetkel veel mitte -->
     <?php
-    while($sqlGetAllBooks->fetch()) {
+    while($sqlGetAllBooks->fetch()) 
     echo
     '<div class="row mb-2">
         <div class="col-3">' . htmlspecialchars($title) . '</div>
         <div class="col-3">' . htmlspecialchars($author). '</div>
         <div class="col-2">
-            <form method="POST" action="admin_details_view.php">
-                <input type="hidden" name="id" value="' . htmlspecialchars($id) . '">
-                <button type="submit" name="viewDetails" class="btn btn-info">Vaata</button>
+            <form method="POST" action="'.$_SERVER["PHP_SELF"].'?page=admin&viewDetailsid=' . htmlspecialchars($id) . '">
+                <input type="hidden" name="viewDetailsid" value="' . htmlspecialchars($id) . '">
+                <button type="submit" name="" class="btn btn-info">Vaata</button>
             </form>
         </div>
         <div class= "col-1">
@@ -71,6 +85,6 @@ $sqlGetAllBooks->execute();
             </form>
         </div>
     </div>';
-    }
+    
     ?>
  </div>
