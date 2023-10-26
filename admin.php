@@ -1,7 +1,7 @@
 <?php
 require($_SERVER["DOCUMENT_ROOT"]."/../library_config.php");
 global $connect;
-//$bookDetails = null;
+
 //ViewDetalid pohjal raamatu andmed
 if(isset($_POST["viewDetailsid"])){
 
@@ -12,8 +12,8 @@ if(isset($_POST["viewDetailsid"])){
     $sqlGetBookDetails->bind_result($did, $dtitle, $dauthor, $deadLine, $status, $year, $synopsis, $img);
     $sqlGetBookDetails->execute();
     $sqlGetBookDetails->fetch();
+    //VÄGA OlULINE RIDA, muidu on out of sync error
     $sqlGetBookDetails->close();
-
 }
 // Admin vaates põhilise info kuvamiseks
 $sqlGetAllBooks = $connect->prepare("SELECT id, title, author FROM books");
@@ -33,19 +33,19 @@ $sqlGetAllBooks->execute();
         </div>
         <div class="form-group row col-2 mb-2">
             <label for="bookAuthor" class="form-label">Autor</label>
-            <input type="text" class="form-control" id="bookAuthor" name="author" required>
+            <input type="text" class="form-control" id="bookAuthor" name="author" value="<?= $dauthor?? "" ?>" required>
         </div>
         <div class="form-group row col-2 mb-2">
             <label for="bookYear" class="form-label">Aasta</label>
-            <input type="number" class="form-control" id="bookYear" name="year" required>
+            <input type="number" class="form-control" id="bookYear" name="year" value="<?= $year?? "" ?>"required>
         </div>
         <div class="form-group row col-2 mb-2">
             <label for="bookImgUrl" class="form-label">Pildilink</label>
-            <input type="text" class="form-control" id="bookImgUrl" name="image">
+            <input type="text" class="form-control" id="bookImgUrl" name="image" value="<?= $img?? "" ?>">
         </div>
         <div class="form-group row col-2 mb-2">
             <label for="bookSynopsis" class="form-label">Sünopsis</label>
-            <textarea class="form-control" id="bookSynopsis" name="synopsis"></textarea>
+            <textarea class="form-control" id="bookSynopsis" name="synopsis" value="<?= $synopsis?? "" ?>" ></textarea>
         </div>
         <div class="form-group row col-2 mb-2">
         <select class="form-control form-select" name="status">
