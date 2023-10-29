@@ -4,6 +4,7 @@ global $connect;
 $bookId = null;
 $status = null;
 //Raamatu vaata ja uuenda vaade, laeme, kui vajutatakse vaata nupule
+// Todo - tagasi nuppu ka siia vaja
 if(isset($_POST["viewDetailsid"])){
     $bookId = $_POST["viewDetailsid"];
     $sql = "SELECT id, title, author, deadline, status, year, synopsis, img FROM books WHERE id = ?";
@@ -53,7 +54,7 @@ $sqlGetAllBooks->execute();
             <option value="shelf" <?= $status === "shelf" ? "selected" : "" ?>>Riiul</option>
             <option value="hall" <?= $status === "hall" ? "selected" : "" ?>>Saal</option>
             <option value="loaned" <?= $status === "loaned" ? "selected" : "" ?>>Laenutatud</option>
-            <option value="storage" <?= $status === "loaned" ? "selected" : "" ?>>Ladu</option>
+            <option value="storage" <?= $status === "storage" ? "selected" : "" ?>>Ladu</option>
         </select>
         </div>
         <div class="form-group row col-1 mb-2">
@@ -71,7 +72,7 @@ $sqlGetAllBooks->execute();
         <div class="col-3 form-label" style="font-weight:bold">Pealkiri</div>
         <div class="col-3 form-label" style="font-weight:bold">Autor</div>
     </div>
-    <!-- Kuvan 2 formi ja nuppu, delete on lisatud, detailvaade hetkel veel mitte -->
+    <!-- Kuvan 2 formi ja nuppu, detailvaate ja kustutamise jaoks, confirm delete ka? -->
     <?php
     while($sqlGetAllBooks->fetch()) 
     echo
@@ -91,6 +92,5 @@ $sqlGetAllBooks->execute();
             </form>
         </div>
     </div>';
-    
     ?>
  </div>
