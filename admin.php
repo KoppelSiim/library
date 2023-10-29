@@ -25,7 +25,8 @@ $sqlGetAllBooks->execute();
     <h1>Haldus</h1>
     <h4><?=$bookId ? "Uuenda" : "Lisa raamat"?></h4>
     <!--Raamatu lisamise, vaatamise, uuendamise form -->
-    <form method="POST" action="add_book.php" class="mb-3" name="addBook">
+    <form method="POST" action=<?= $status ? "update_book.php" : "add_book.php" ?> class="mb-3">
+    <input type="hidden" name="book_id" value="<?= $bookId ?>">
         <div class="form-group row col-2 mb-2">
             <label for="bookTitle" class="form-label">Pealkiri</label>
             <input type="text" class="form-control" id="bookTitle" name="title" value="<?= $dtitle ?? "" ?>" required>
