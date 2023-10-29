@@ -9,11 +9,11 @@ if (isset($_POST["title"], $_POST["author"], $_POST["year"]) &&
     $title = $_POST["title"];
     $author = $_POST["author"];
     $year = $_POST["year"];
-    // Non-required fields
-    $image = isset($_POST["image"]) ? $_POST["image"] : null;
-    $synopsis = isset($_POST["synopsis"]) ? $_POST["synopsis"] : null;
-    $status = isset($_POST["status"]) ? $_POST["status"] : null;
-
+    // Non-required fields, assign null if value is not set or is ""
+    $image = isset($_POST["image"]) && $_POST["image"] !== "" ? $_POST["image"] : null;
+    $synopsis = isset($_POST["synopsis"]) && $_POST["synopsis"] !== "" ? $_POST["synopsis"] : null;
+    $status = isset($_POST["status"]) && $_POST["status"] !== "" ? $_POST["status"] : null;
+    
     $sqlInsertBook = $connect->prepare("INSERT INTO books (title, author, year, img, synopsis, status) VALUES (?, ?, ?, ?, ?, ?)");
     $sqlInsertBook->bind_param("ssisss", $title, $author, $year, $image, $synopsis, $status);
     if($sqlInsertBook->execute()) {

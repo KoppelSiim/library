@@ -32,7 +32,7 @@ $sqlGetLoanedBooks->execute();
         <div class="row"> 
             <div class="col-3">' . htmlspecialchars($title) . '</div>
             <div class="col-2">' . htmlspecialchars($author) . '</div>
-            <div class="col-2">' . htmlspecialchars($deadLine) . '</div>
+            <div class="col-2">' . ($deadLine == null ? '' : htmlspecialchars($deadLine)) . '</div>
             <div class="col-2">
                 <form method="POST" action="return_book.php">
                     <input type="hidden" name="bookId" value=' . htmlspecialchars($id) .'>
