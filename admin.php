@@ -4,7 +4,6 @@ global $connect;
 $bookId = null;
 $status = null;
 //Raamatu vaata ja uuenda vaade, laeme, kui vajutatakse vaata nupule
-// Todo - tagasi nuppu ka siia vaja
 if(isset($_POST["viewDetailsid"])){
     $bookId = $_POST["viewDetailsid"];
     $sql = "SELECT id, title, author, deadline, status, year, synopsis, img FROM books WHERE id = ?";
@@ -26,7 +25,7 @@ $sqlGetAllBooks->execute();
     <h1>Haldus</h1>
     <h4><?=$bookId ? "Uuenda" : "Lisa raamat"?></h4>
     <!--Raamatu lisamise, vaatamise, uuendamise form -->
-    <form method="POST" action=<?= $status ? "update_book.php" : "add_book.php" ?> class="mb-3">
+    <form method="POST" action=<?= $bookId ? "update_book.php" : "add_book.php" ?> class="mb-3">
     <input type="hidden" name="book_id" value="<?= $bookId ?>">
         <div class="form-group row col-2 mb-2">
             <label for="bookTitle" class="form-label">Pealkiri</label>
@@ -38,7 +37,7 @@ $sqlGetAllBooks->execute();
         </div>
         <div class="form-group row col-2 mb-2">
             <label for="bookYear" class="form-label">Aasta</label>
-            <input type="number" class="form-control" id="bookYear" name="year" value="<?= $year?? "" ?>"required>
+            <input type="number" class="form-control" id="bookYear" name="year" value="<?= $year?? "" ?>"required min="1000" max="2100">
         </div>
         <div class="form-group row col-2 mb-2">
             <label for="bookImgUrl" class="form-label">Pildilink</label>
@@ -57,13 +56,27 @@ $sqlGetAllBooks->execute();
             <option value="storage" <?= $status === "storage" ? "selected" : "" ?>>Ladu</option>
         </select>
         </div>
-        <div class="form-group row col-1 mb-2">
-            <?php
-            $saveBtn = '<button type="submit" name="addBook" class="btn btn-primary">Lisa raamat</button>';
-            $updateBtn = '<button type="submit" name="addBook" class="btn btn-success">Uuenda</button>';
-            $btn = $bookId ? $updateBtn : $saveBtn;
-            echo $btn;
-            ?>
+        <div class="form-group row mb-2">
+        <?php
+        $addState = '
+        <div class="col-1">
+            <button type="submit" name="addBook" class="btn btn-primary">Lisa</button>
+        </div>
+        <div class="col-1">
+            <button type="submit" name="back" class="btn btn-danger">Tagasi</button>
+        </div>
+        ';
+        $updateState = '
+        <div class="col-1">
+            <button type="submit" name="updateBook" class="btn btn-success">Uuenda</button>
+        </div>
+        <div class="col-1">
+            <button type="submit" name="back" class="btn btn-danger">Tagasi</button>
+        </div>
+        ';
+        $state = $bookId ? $updateState : $addState;
+        echo $state;
+        ?>
         </div>
     </form>
     <!-- Kuvan admin põhivaates hetkel ainult raamatu pealkirja ja autori -->
