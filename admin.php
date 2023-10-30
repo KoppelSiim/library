@@ -6,14 +6,23 @@ $status = null;
 //Raamatu vaata ja uuenda vaade, laeme, kui vajutatakse vaata nupule
 if(isset($_POST["viewDetailsid"])){
     $bookId = $_POST["viewDetailsid"];
-    $sql = "SELECT id, title, author, deadline, status, year, synopsis, img FROM books WHERE id = ?";
-    $sqlGetBookDetails = $connect->prepare($sql);
-    $sqlGetBookDetails->bind_param("i", $bookId);
-    $sqlGetBookDetails->bind_result($did, $dtitle, $dauthor, $deadLine, $status, $year, $synopsis, $img);
-    $sqlGetBookDetails->execute();
-    $sqlGetBookDetails->fetch();
-    //VÄGA OlULINE RIDA, muidu on out of sync error
-    $sqlGetBookDetails->close();
+    // Turvalisuse mõttes konverteerime täisarvuks
+    $bookId = intval($bookId); 
+    // On int ja positiivne, sobib
+    if($bookId > 0) {
+        $sql = "SELECT id, title, author, deadline, status, year, synopsis, img FROM books WHERE id = ?";
+        $sqlGetBookDetails = $connect->prepare($sql);
+        $sqlGetBookDetails->bind_param("i", $bookId);
+        //Detailvaate jaoks on osad muutujanimed teised, et mitte minna konflikti - id, pealkiri ja autor
+        $sqlGetBookDetails->bind_result($did, $dtitle, $dauthor, $deadLine, $status, $year, $synopsis, $img);
+        $sqlGetBookDetails->execute();
+        $sqlGetBookDetails->fetch();
+        //VÄGA OlULINE RIDA, muidu on out of sync error
+        $sqlGetBookDetails->close();
+    } else {
+        echo "Ebasobiv id";
+        exit;
+    }
 }
 // Admin vaates põhilise info kuvamiseks
 $sqlGetAllBooks = $connect->prepare("SELECT id, title, author FROM books");
@@ -23,10 +32,14 @@ $sqlGetAllBooks->execute();
 <!-- Haldus leht -->
 <div class="container">
     <h1>Haldus</h1>
-    <h4><?=$bookId ? "Uuenda" : "Lisa raamat"?></h4>
+    <!-- Kuvame formi pealkirja vastavalt lisamise või vaata/uuenda vaatele -->
+    <h4><?= $bookId ? "Uuenda" : "Lisa raamat"?></h4>
     <!--Raamatu lisamise, vaatamise, uuendamise form -->
+    <!--Kui kasutatakse detailvaadet valmistame ette uuendamise scripti, vastasel juhul raamatu lisamise scripti  -->
     <form method="POST" action=<?= $bookId ? "update_book.php" : "add_book.php" ?> class="mb-3">
+    <!-- Saadame raamatu id uuendamiseks siit -->
     <input type="hidden" name="book_id" value="<?= $bookId ?>">
+        <!--Eeltäidame vormi vaata/uuenda vaates, kui kasutaja vajutab vaata nupule -->
         <div class="form-group row col-2 mb-2">
             <label for="bookTitle" class="form-label">Pealkiri</label>
             <input type="text" class="form-control" id="bookTitle" name="title" value="<?= $dtitle ?? "" ?>" required>
@@ -57,6 +70,7 @@ $sqlGetAllBooks->execute();
         </select>
         </div>
         <div class="form-group row mb-2">
+        <!-- 2 nuppu, vastavalt sellele, kas on lisamise või vaata/uuenda vaade -->
         <?php
         $addState = '
         <div class="col-1">
@@ -79,13 +93,14 @@ $sqlGetAllBooks->execute();
         ?>
         </div>
     </form>
-    <!-- Kuvan admin põhivaates hetkel ainult raamatu pealkirja ja autori -->
+
+    <!-- Kuvan admin põhivaates ainult raamatu pealkirja ja autori -->
     <h4 class="mb-3">Raamatud</h4>
     <div class="row mb-2">
         <div class="col-3 form-label" style="font-weight:bold">Pealkiri</div>
         <div class="col-3 form-label" style="font-weight:bold">Autor</div>
     </div>
-    <!-- Kuvan 2 formi ja nuppu, detailvaate ja kustutamise jaoks, confirm delete ka? -->
+    <!-- Kuvan 2 formi ja nuppu, detailvaate ja kustutamise jaoks -->
     <?php
     while($sqlGetAllBooks->fetch()) 
     echo
