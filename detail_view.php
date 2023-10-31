@@ -5,13 +5,13 @@ global $connect;
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
 
-    $sql = "SELECT title, author, status, deadline FROM books WHERE id = ?";
+    $sql = "SELECT title, author, status, deadline, img, synopsis FROM books WHERE id = ?";
     $command = $connect->prepare($sql);
 
     $command->bind_param("i", $id);
     $command->execute();
 
-    $command->bind_result($title, $author, $status, $deadline);
+    $command->bind_result($title, $author, $status, $deadline, $img, $synopsis);
     $command->fetch();
 
     $statusTranslated = translateStatus($status);
@@ -40,7 +40,6 @@ function translateStatus($status) {
 <html>
 <head>
     <title>Raamatu Detailvaade</title>
-    <!-- Add your CSS links or styles here -->
 </head>
 <body>
 
@@ -50,6 +49,9 @@ function translateStatus($status) {
     <div class="modal-content">
         <div class="detailView">
             <h4><?php echo htmlspecialchars($title); ?></h4>
+
+            <img src="<?php echo htmlspecialchars($img); ?>" alt="Book Image" width="200" height="200">
+
             <p>Autor: <?php echo htmlspecialchars($author); ?></p>
             <p>Staatus: <?php echo htmlspecialchars($statusTranslated)?></p>
 
@@ -59,7 +61,10 @@ function translateStatus($status) {
                 }
             ?>
 
-            <button id="closePopup" onclick="closePopup();">Sulge aken</button>
+            <p>Sünopsis:</p>
+            <p><?php echo htmlspecialchars($synopsis); ?></p>
+
+            <button id="closePopup" class="btn btn-dark" onclick="closePopup();">Sulge aken</button>
         </div>
     </div>
 </div>

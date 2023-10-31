@@ -105,7 +105,7 @@ if (isset($_GET["submitSearch"])) {
 
                             <div class="col-2 mb-2">
                                 <button type="button" class="btn btn-dark" onclick="openPopup(<?php echo $row['id']; ?>)">Vaata</button>
-                                <button type="submit" class="btn btn-dark" name="borrow" value="<?php echo $row['id']; ?>">Laenuta</button>
+                                <button type="submit" class="btn btn-dark" onclick="loanBook(<?php echo $row['id']; ?>)">Laenuta</button>
                             </div>
                         </div>
                     </div>
@@ -121,5 +121,34 @@ if (isset($_GET["submitSearch"])) {
     function openPopup(bookId) {
         var url = 'detail_view.php?id=' + bookId;
         var popupWindow = window.open(url, 'Detail_view', 'width=600,height=400');
+    }
+
+     function loanBook(bookId) {
+        event.preventDefault(); // Prevent the default form submission
+    
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "loan_book.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+
+                if (response.success) {
+                    alert(response.message); 
+
+                    var currentURL = window.location.href;
+                    var newURL = currentURL.split('?')[0]; 
+                    newURL += '?success=true'; 
+                    window.location.href = newURL;
+                    
+                } else {
+                    alert("Loan process failed. " + response.message);
+                }
+            }
+        };
+
+        var data = "bookId=" + bookId;
+        xhr.send(data);
     }
 </script>
