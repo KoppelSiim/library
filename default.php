@@ -8,15 +8,13 @@ $result = null;
 $baseSelect = "SELECT id, title, author FROM books ";
 $formSubmitted = false;
 
-// Check if the search button has been clicked
 if (isset($_GET["submitSearch"])) {
     $formSubmitted = true;
 
     $sql = $baseSelect;
     $conditions = array();
-    $bindParams = array(); // Define $bindParams as a flat array
+    $bindParams = array(); 
 
-    // Use $_GET to retrieve parameters from the URL
     if (!empty($_GET["id"])) {
         $idFromForm = $_GET["id"];
         $conditions[] = "id = ?";
@@ -58,15 +56,13 @@ if (isset($_GET["submitSearch"])) {
         }
     }
 }
-//  laenutamise php blokk
-//  detailvaate redirection
+
 ?>
 <div class="container">
     <h2>Raamatukogu</h2>
     <h4>Otsing</h4>
 
     <form class="searchForm" method="GET" action="">
-        <!-- Modify input field names to match the parameters -->
         <div class="form-group">
             <label for="title" class="form-label">Pealkiri</label>
             <input type="text" class="form-control" id="title" name="title" style="max-width: 200px">
@@ -108,8 +104,8 @@ if (isset($_GET["submitSearch"])) {
                             </div>
 
                             <div class="col-2 mb-2">
-                                <button type="submit" class="btn btn-dark" name="toDetail" value="<?php echo $row['id']; ?>">Vaata</button>
-                                <button type="submit" class="btn btn-dark" name="borrow" value="<?php echo $row['id']; ?>">Laenuta</button>
+                                <button type="button" class="btn btn-dark" onclick="openPopup(<?php echo $row['id']; ?>)">Vaata</button>
+                                <button type="submit" class="btn btn-dark" onclick="loanBook(<?php echo $row['id']; ?>)">Laenuta</button>
                             </div>
                         </div>
                     </div>
@@ -120,3 +116,39 @@ if (isset($_GET["submitSearch"])) {
         }
     } ?>
 </div>
+
+<script>
+    function openPopup(bookId) {
+        var url = 'detail_view.php?id=' + bookId;
+        var popupWindow = window.open(url, 'Detail_view', 'width=600,height=400');
+    }
+
+     function loanBook(bookId) {
+        event.preventDefault(); // Prevent the default form submission
+    
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "loan_book.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+
+                if (response.success) {
+                    alert(response.message); 
+
+                    var currentURL = window.location.href;
+                    var newURL = currentURL.split('?')[0]; 
+                    newURL += '?success=true'; 
+                    window.location.href = newURL;
+                    
+                } else {
+                    alert("Loan process failed. " + response.message);
+                }
+            }
+        };
+
+        var data = "bookId=" + bookId;
+        xhr.send(data);
+    }
+</script>
