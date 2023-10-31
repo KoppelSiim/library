@@ -2,7 +2,8 @@
 require($_SERVER["DOCUMENT_ROOT"]."/../library_config.php");
 global $connect;
 $bookId = null;
-$status = null;
+$dstatus = null;
+$translateStatus = ["shelf"=>"Riiul", "hall"=>"Saal","loaned"=>"Laenutatud","storage"=>"Ladu"];
 //Raamatu vaata ja uuenda vaade, laeme, kui vajutatakse vaata nupule
 if(isset($_POST["viewDetailsid"])){
     $bookId = $_POST["viewDetailsid"];
@@ -13,8 +14,8 @@ if(isset($_POST["viewDetailsid"])){
         $sql = "SELECT id, title, author, deadline, status, year, synopsis, img FROM books WHERE id = ?";
         $sqlGetBookDetails = $connect->prepare($sql);
         $sqlGetBookDetails->bind_param("i", $bookId);
-        //Detailvaate jaoks on osad muutujanimed teised, et mitte minna konflikti - id, pealkiri ja autor
-        $sqlGetBookDetails->bind_result($did, $dtitle, $dauthor, $deadLine, $status, $year, $synopsis, $img);
+        //Detailvaate jaoks on osad muutujanimed teised, et mitte minna konflikti - id, pealkiri, autor ja staatus
+        $sqlGetBookDetails->bind_result($did, $dtitle, $dauthor, $deadLine, $dstatus, $year, $synopsis, $img);
         $sqlGetBookDetails->execute();
         $sqlGetBookDetails->fetch();
         //VÄGA OlULINE RIDA, muidu on out of sync error
@@ -25,8 +26,8 @@ if(isset($_POST["viewDetailsid"])){
     }
 }
 // Admin vaates põhilise info kuvamiseks
-$sqlGetAllBooks = $connect->prepare("SELECT id, title, author FROM books");
-$sqlGetAllBooks->bind_result($id, $title, $author);
+$sqlGetAllBooks = $connect->prepare("SELECT id, title, author, status FROM books");
+$sqlGetAllBooks->bind_result($id, $title, $author,$status);
 $sqlGetAllBooks->execute();
 ?>
 <!-- Haldus leht -->
@@ -63,10 +64,10 @@ $sqlGetAllBooks->execute();
         <div class="form-group row col-2 mb-2">
         <select class="form-control form-select" name="status">
             <option value="">Staatus</option> 
-            <option value="shelf" <?= $status === "shelf" ? "selected" : "" ?>>Riiul</option>
-            <option value="hall" <?= $status === "hall" ? "selected" : "" ?>>Saal</option>
-            <option value="loaned" <?= $status === "loaned" ? "selected" : "" ?>>Laenutatud</option>
-            <option value="storage" <?= $status === "storage" ? "selected" : "" ?>>Ladu</option>
+            <option value="shelf" <?= $dstatus === "shelf" ? "selected" : "" ?>>Riiul</option>
+            <option value="hall" <?= $dstatus === "hall" ? "selected" : "" ?>>Saal</option>
+            <option value="loaned" <?= $dstatus === "loaned" ? "selected" : "" ?>>Laenutatud</option>
+            <option value="storage" <?= $dstatus === "storage" ? "selected" : "" ?>>Ladu</option>
         </select>
         </div>
         <div class="form-group row mb-2">
@@ -94,11 +95,12 @@ $sqlGetAllBooks->execute();
         </div>
     </form>
 
-    <!-- Kuvan admin põhivaates ainult raamatu pealkirja ja autori -->
+    <!-- Kuvan admin põhivaates raamatu pealkirja, autori ja staatuse -->
     <h4 class="mb-3">Raamatud</h4>
     <div class="row mb-2">
         <div class="col-3 form-label" style="font-weight:bold">Pealkiri</div>
         <div class="col-3 form-label" style="font-weight:bold">Autor</div>
+        <div class="col-2 form-label" style="font-weight:bold">Staatus</div>
     </div>
     <!-- Kuvan 2 formi ja nuppu, detailvaate ja kustutamise jaoks -->
     <?php
@@ -107,6 +109,7 @@ $sqlGetAllBooks->execute();
     '<div class="row mb-2">
         <div class="col-3">' . htmlspecialchars($title) . '</div>
         <div class="col-3">' . htmlspecialchars($author). '</div>
+        <div class="col-3">' . htmlspecialchars($translateStatus[$status]). '</div>
         <div class="col-2">
             <form method="POST" action="'.$_SERVER["PHP_SELF"].'?page=admin&viewDetailsid=' . htmlspecialchars($id) . '">
                 <input type="hidden" name="viewDetailsid" value="' . htmlspecialchars($id) . '">
