@@ -59,8 +59,7 @@ if (isset($_GET["submitSearch"])) {
 
 ?>
 <div class="container">
-    <h2>Raamatukogu</h2>
-    <h4>Otsing</h4>
+    <h1 class="title">Otsing</h1>
 
     <form class="searchForm" method="GET" action="">
         <div class="form-group">
@@ -79,7 +78,7 @@ if (isset($_GET["submitSearch"])) {
         </div> 
 
         <div class="form-group">
-            <button type="submit" class="btn btn-dark" value="search" name="submitSearch">Search</button>
+            <button type="submit" class="button-green" value="search" name="submitSearch">Otsi</button>
         </div>
     </form>
 </div>
@@ -104,8 +103,8 @@ if (isset($_GET["submitSearch"])) {
                             </div>
 
                             <div class="col-2 mb-2">
-                                <button type="button" class="btn btn-dark" onclick="openPopup(<?php echo $row['id']; ?>)">Vaata</button>
-                                <button type="submit" class="btn btn-dark" onclick="loanBook(<?php echo $row['id']; ?>)">Laenuta</button>
+                                <button type="button" class="button-green" onclick="openPopup(<?php echo $row['id']; ?>)">Vaata</button>
+                                <button type="submit" class="button-purple" onclick="loanBook(<?php echo $row['id']; ?>)">Laenuta</button>
                             </div>
                         </div>
                     </div>

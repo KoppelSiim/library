@@ -40,17 +40,16 @@ function translateStatus($status) {
 <html>
 <head>
     <title>Raamatu Detailvaade</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-
-<h2>Detailvaade</h2>
 
 <div class="modal-overlay" id="bookModal">
     <div class="modal-content">
         <div class="detailView">
-            <h4><?php echo htmlspecialchars($title); ?></h4>
+            <h1 class="title"><?php echo htmlspecialchars($title); ?></h1>
 
-            <img src="<?php echo htmlspecialchars($img); ?>" alt="Book Image" width="200" height="200">
+            <img src="<?php echo htmlspecialchars($img); ?>" alt="Book Image" height="200">
 
             <p>Autor: <?php echo htmlspecialchars($author); ?></p>
             <p>Staatus: <?php echo htmlspecialchars($statusTranslated)?></p>
@@ -60,11 +59,12 @@ function translateStatus($status) {
                     echo "<p>Laenutuse tähtaeg: " . htmlspecialchars($deadline) . "</p>";
                 }
             ?>
+            <hr>
 
             <p>Sünopsis:</p>
             <p><?php echo htmlspecialchars($synopsis); ?></p>
 
-            <button id="closePopup" class="btn btn-dark" onclick="closePopup();">Sulge aken</button>
+            <button id="closePopup" class="button-green" onclick="closePopup();">Sulge aken</button>
         </div>
     </div>
 </div>
