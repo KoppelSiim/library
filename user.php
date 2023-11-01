@@ -45,7 +45,6 @@ while($sqlGetLoanedBooks ->fetch()) {
     // Muudame taustavarvi vastavalt paevadele
     $intervalInDays = $interval->format('%a');
     // Echo the difference in days
-    echo $intervalInDays;
     if ($interval->days >= 7) {
         $bgCol = "green";
     }
