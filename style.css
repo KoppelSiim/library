@@ -4,6 +4,7 @@ html {
 body{
   background-color: rgb(231, 230, 230);
 }
+
 .bg-light-opacity {
   background-color: rgba(97, 166, 255, 0.3);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -11,12 +12,21 @@ body{
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
+
+
+.bg-dark-opacity{
+  background: rgba(0, 10, 156, 0.719);
+  backdrop-filter: blur(17.6px);
+  -webkit-backdrop-filter: blur(17.6px);
+}
+
 ul.navbar-nav li.nav-item a.nav-link {
   color: white;
+  font-weight:bold;
 }
 
 .navbar-light .navbar-brand {
-  color: blueviolet;
+  color: rgba(205, 6, 255, 0.877);
 }
 .navbar-brand{
   pointer-events: none;
