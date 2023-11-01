@@ -43,22 +43,28 @@ while($sqlGetLoanedBooks ->fetch()) {
     //DateInterval objekt kahe kuupaeva vahega
     $interval = $currentDate->diff($deadLineDate);
     // Muudame taustavarvi vastavalt paevadele
+    $intervalInDays = $interval->format('%a');
+    // Echo the difference in days
+    echo $intervalInDays;
     if ($interval->days >= 7) {
         $bgCol = "green";
     }
-    else if ($interval->days > 0) {
+    else if ($interval->days < 7 && $interval->days > 2) {
         $bgCol = "yellow";
     }
-    else if ($interval->days <= 0) {
+    else if ($interval->days <= 2) {
         $bgCol = "red";
     }
     // Valjastame raamatud, kui tahtaeg on null siis valjastame tyhja stringi
+    // <div class="col-2" style="background-color: ' .$bgCol . ';" >' . ($deadLine == null ? '' : htmlspecialchars($deadLine)) . '</div>
     echo '
     <div class="row"> 
         <div class="col-3">' . htmlspecialchars($title) . '</div>
-        <div class="col-2">' . htmlspecialchars($author) . '</div>
-        <div class="col-2" style="background-color: ' .$bgCol . ';" >' . ($deadLine == null ? '' : htmlspecialchars($deadLine)) . '</div>
-        <div class="col-2">
+        <div class="col-2">' . htmlspecialchars($author) . '</div>';
+        echo '<div class="col-2">';
+        echo '<p style="font-weight:bold; padding:8px; display: inline; background-color: ' . $bgCol . ';">' . ($deadLine == null ? '' : htmlspecialchars($deadLine)) . '</p>';
+        echo '</div>';
+        echo '<div class="col-2">
             <form method="POST" action="return_book.php">
                 <input type="hidden" name="bookId" value=' . htmlspecialchars($id) .'>
                 <button type="submit" name="returnBook" class="btn-sm btn-primary mb-4">Tagasta</button>
