@@ -1,3 +1,7 @@
+html { 
+  min-height: 100vh;
+}
+
 ul.navbar-nav li.nav-item a.nav-link {
   color: white;
 }
@@ -5,7 +9,9 @@ ul.navbar-nav li.nav-item a.nav-link {
 .navbar-light .navbar-brand {
   color: blueviolet;
 }
-
+.navbar-brand{
+  pointer-events: none;
+}
 .modal-overlay {
     display: none;
     position: fixed;
@@ -33,3 +39,21 @@ ul.navbar-nav li.nav-item a.nav-link {
     margin-top: 10px;
     cursor: pointer;
 }
+
+#mainHeader{
+  height: 7vh;
+  margin-top: 8vh;
+}
+
+#mainFooter{
+  height: 7vh;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+#mainFooter .container-fluid .row p{
+  font-weight: bold;
+  color:rgb(122, 5, 105);
+}
+
