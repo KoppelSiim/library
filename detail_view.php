@@ -5,13 +5,13 @@ global $connect;
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
 
-    $sql = "SELECT title, author, status, deadline, img, synopsis FROM books WHERE id = ?";
+    $sql = "SELECT title, author, status, deadline, img, synopsis, year FROM books WHERE id = ?";
     $command = $connect->prepare($sql);
 
     $command->bind_param("i", $id);
     $command->execute();
 
-    $command->bind_result($title, $author, $status, $deadline, $img, $synopsis);
+    $command->bind_result($title, $author, $status, $deadline, $img, $synopsis, $year);
     $command->fetch();
 
     $statusTranslated = translateStatus($status);
@@ -52,6 +52,7 @@ function translateStatus($status) {
             <img src="<?php echo htmlspecialchars($img); ?>" alt="Book Image" height="200">
 
             <p>Autor: <?php echo htmlspecialchars($author); ?></p>
+            <p>Aasta: <?php echo htmlspecialchars($year); ?></p>
             <p>Staatus: <?php echo htmlspecialchars($statusTranslated)?></p>
 
             <?php
