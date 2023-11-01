@@ -13,7 +13,7 @@
 
 <body>
 
-    <nav class="container navbar navbar-expand-lg navbar-light bg-dark mt-4 mb-4">
+    <nav id="mainHeader" class="container navbar navbar-expand-lg navbar-light bg-dark-opacity mb-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Raamatukogu</a>
 

@@ -1,5 +1,8 @@
-<footer class="container footer mt-auto py-3 bg-dark">
-    <p>Footer</p>
+<footer id="mainFooter" class="container bg-light-opacity d-flex align-items-center justify-content-center">
+  <div class="container-fluid mt-auto">
+    <div class="row">
+      <p class="text-center">Lehe tegid Siim Koppel & Annabel Jakubel</p>
+    </div>
 </footer>
 
 </body>
